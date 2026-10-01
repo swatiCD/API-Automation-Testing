@@ -1,35 +1,21 @@
 import { expect, request, test } from '@playwright/test'
 import {BASE_URL } from '../config/bookingapp.config'
 import createBookingBody  from '../fixtures/booking.payload.json' with { type: 'json' };
-import {getRequest , postRequestWithBody } from '../utilities/apiLogger' 
+import {deleteRequest, getRequest , postRequestWithBody } from '../utilities/apiLogger' 
 
 /*here we are keeping payload in seperate json file booking.payload.json
 Keeping endpoint url in seperate file bookingapp.config.ts */
 
 test(`verify the post api`, async ({ request }) => {
-
-    
     const url = BASE_URL;
     const method = "Post";
     const headers = {
         Accept: 'application/json'
     }
 
-    // we dont need body any mpre as we specified in json file
-    // const body = {
-    //     name: "BhaguApple MacBook Pro 16",
-    //     data: {
-    //         year: 2019,
-    //         price: 1849.99,
-    //         "CPU model": "Intel Core i9",
-    //         "Hard disk size": "1 TB"
-    //     }
-    // }
-
     console.log("-------------------REQUEST POST -------------");
     console.log("URL  " + url);
     console.log("Method  " + method);
-    console.log("Body" + JSON.stringify(createBookingBody, null, 2));
 
 // 🔹 Step 1: POST request
    // const postResponse = await request.post(url, { headers, data: createBookingBody.BhaguApple})
@@ -40,17 +26,14 @@ test(`verify the post api`, async ({ request }) => {
     });
     const postBody = await postResponse.json();
 
-    // console.log("Status " + postResponse.statusText());
-    // console.log("Status code " + postResponse.status());
-    // console.log("Body:", JSON.stringify(postBody, null, 2));
-
    
 // 🔹 Step 2: GET request using returned ID
   const newId = postBody.id;
   const getUrl = `${url}/${newId}`;
-     
+  console.log("")   ;
   console.log("-------------REQUEST (GET)-------------");
   console.log("URL:", getUrl);
+  console.log("");
   console.log("New ID  " +newId)
 
   //const getResponse =await request.get(getUrl ,{headers});
@@ -70,7 +53,8 @@ if (getResponse.status() === 405) {
     expect(getBody.id).toBe(newId);
 
 // 🔹 Step 3: DELETE
-      const deleteResponse = await request.delete(`${url}/${newId}`, {headers});
+      //const deleteResponse = await request.delete(`${url}/${newId}`, {headers});
+      const deleteResponse = await deleteRequest(request,`${url}/${newId}`, {headers});
       expect(deleteResponse.status()).toBe(200);
 
 // 🔹 Step 4: GET again (verify deletion)

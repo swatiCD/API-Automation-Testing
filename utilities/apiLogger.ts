@@ -33,17 +33,16 @@ export async function getRequest(
      Otherwise → prints raw text. */
 
     const contentType = response.headers()['content-type'];
-    if(contentType && contentType.includes('Application/json')){
+    if(contentType && contentType.toLowerCase().includes('Application/json')){
       const responseBody=  await response.json();
       console.log("BODY");
-      console.log("Body:", JSON.stringify(responseBody, null, 2));
-     // console.log(responseBody);
+      console.log(JSON.stringify(responseBody, null, 2));
+     
     }
     else{
         const responseBody = await response.text();
         console.log('BODY');
-        console.log("Body:", JSON.stringify(responseBody, null, 2));
-        //console.log(responseBody);
+        console.log(JSON.stringify(responseBody, null, 2));
     }
 
    return response;
@@ -84,16 +83,49 @@ export async function postRequestWithBody(
 
     const contentType = response.headers()['content-type'];
     if(contentType && contentType.includes('Application/json')){
-      const responseBody=  await response.json();
-      console.log("BODY");
-      console.log(responseBody);
-      // console.log("Body->:", JSON.stringify(responseBody, null, 2));
+    //   const responseBody=  await response.json();
+    //   console.log("BODY");
+    //   console.log(responseBody);
+     const responseBody = await response.json();
+       console.log("Body:", JSON.stringify(responseBody, null, 2));
+      
     }
     else{
-        const responseBody = await response.text();
-        console.log('BODY');
-        console.log(responseBody);
+    //     const responseBody = await response.text();
+    //     console.log('BODY');
+    //    console.log(responseBody);
+        const responseBody = await response.json();
+       console.log("Body:", JSON.stringify(responseBody, null, 2));
     }
+
+   return response;
+}
+
+
+/*DELETE  METHOD*/
+
+export async function deleteRequest(
+    request :APIRequestContext,
+    url : string,
+    headers ?:object 
+):Promise<APIResponse> {
+
+ /*Above funstion Returns: A Playwright APIResponse object.*/
+  
+  /*1. Send the POST request*/
+  const response = await request.delete(url,headers);
+
+  /*2. Log request  details */
+  console.log("-------------------------REQUSET DELETE-------------------------");
+  console.log(`DELETE ${response.url()}`);
+  
+
+   /*3. Log response  details */
+   console.log("--------------------RESPONSE DELETE ------------------------")
+   console.log(`STATUS ${response.status()} ${response.statusText()}`);
+   console.log("HEADERS:= ")
+   console.log(response.headers());
+   console.log("**********DELETE SUCCESSFUL********");
 
    return response;
 }
