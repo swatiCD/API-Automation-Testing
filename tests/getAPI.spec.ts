@@ -62,9 +62,6 @@ if (getResponse.status() === 405) {
        expect(getAfterDelete.status()).toBe(404);
        const deletedBody = await getAfterDelete.json();
        console.log("Deleted check:", deletedBody);
-
-
-
        await request.get(url, {headers})
        await request.post(url ,{headers, data: createBookingBody.BhaguApple})
        //request.delete(url, {headers})
