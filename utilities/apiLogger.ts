@@ -83,9 +83,6 @@ export async function postRequestWithBody(
 
     const contentType = response.headers()['content-type'];
     if(contentType && contentType.includes('Application/json')){
-    //   const responseBody=  await response.json();
-    //   console.log("BODY");
-    //   console.log(responseBody);
      const responseBody = await response.json();
        console.log("Body:", JSON.stringify(responseBody, null, 2));
       
