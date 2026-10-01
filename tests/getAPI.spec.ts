@@ -15,6 +15,7 @@ test(`verify the post api`, async ({ request }) => {
         Accept: 'application/json'
     }
 
+    // we dont need body any mpre as we specified in json file
     // const body = {
     //     name: "BhaguApple MacBook Pro 16",
     //     data: {
